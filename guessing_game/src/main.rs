@@ -1,7 +1,17 @@
 //นำเข้าlibrary สำหรับการรับค่าจากผู้ใช้และส่งออก (io คือ input/output) นำเข้า io มาจากไลบรารี่มาตรฐานของ Rust>> std: 
 use std::io;
+
+/*นำเข้า rand ฟังก์ชั่นสุ่มตัวเลข ระบุ Rng เป็น trait ซึ่งจะกำหนดว่าถ้า object ไหนเป็น 
+random number generator (RNG) → มันต้องมี method ที่ใช้สุ่มเลข เช่น gen, gen_range
+- ถ้าไม่ use rand::Rng; → Rust จะไม่รู้ว่า method gen_range มาจากไหน → compile error*/
+use rand::Rng;
+
 fn main() {
     println!("Guess the number!");
+
+    let secret_number = rand::thread_rng().gen_range(1..=100); //thread_rng() → สร้าง RNG ที่ปลอดภัยและผูกกับ thread ปัจจุบัน //gen_range(1..=100) → สุ่มตัวเลขในช่วง 1–100 (inclusive)
+
+    println!("The secret number is: {secret_number}");
 
     println!("Please input your guess.");
     
