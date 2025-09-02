@@ -60,13 +60,13 @@ match ใช้ตรวจสอบว่า ค่าที่ได้เป�
 โครงสร้าง match จะมี arms (แขน) ซึ่งแต่ละ arm กำหนด pattern กับโค้ดที่จะทำงาน
 
 เช่น
-
+```rust
 match guess.cmp(&secret_number) {
     Ordering::Less => println!("Too small!"),
     Ordering::Greater => println!("Too big!"),
     Ordering::Equal => println!("You win!"),
 }
-
+```
 
 👉การทำงานคือ
 - นำค่าที่ได้จาก cmp มาเช็ค
@@ -89,9 +89,9 @@ match guess.cmp(&secret_number) {
 - ต้องแปลงเพราะตอนแรกเรารับค่าผู้ใช้มา io::stdin() คืนค่าเป็น String เสมอ
 - ตอนเปรียบเทียบค่าตรง match ถ้าเราไม่แปลงค่าที่รับมาเป็นตัวเลข จะ error >> Rust จะฟ้อง mismatched types (string vs number)
 - เพราะ string (guess) เปรียบเทียบกับค่าเลข(secret_number)ไม่ได้
-
+```rust
 let guess: u32 = guess.trim().parse().expect("Please type a number!");
-
+```
 👉เวลาผู้ใช้พิมพ์ตัวเลขแล้วกด Enter เช่น 5 โปรแกรมจริงๆ จะได้ "5\n" (เพราะ Enter แถม newline มาด้วย)
 - ใช้ trim() → "5" (ตัดช่องว่างและ newline ออก)
 - ใช้ parse() → 5 (พยายามแปลง string เป็น เลข)
@@ -118,10 +118,12 @@ let guess: u32 = guess.trim().parse().expect("Please type a number!");
 - loop { ... } คือการวนลูป ไม่มีวันจบเอง
 - พอเราเอาโค้ดรับค่า + ตรวจสอบค่ามาใส่ใน loop → ผู้เล่นก็จะได้ลองเดาหลายครั้ง ไม่ใช่แค่ครั้งเดียว
 - เช่น:
+```rust
 loop {
     println!("Please input your guess.");
     // รับ input และเปรียบเทียบ
 }
+```
 
 💥ปัญหาที่เกิดขึ้นจาก loop { ... }
 ตอนนี้เกมจะ วนตลอดไป ไม่มีจบ
@@ -136,6 +138,7 @@ loop {
 👉สิ่งที่เราต้องการคือ ถ้าเดาไม่ถูกก็วนเรื่อยๆ ให้ผู้ใช้กรอกเลขเดามาจนกว่าจะตรงกันกับคำตอบ Equal ขึ้นข้อความ You win! แล้วก็จบ
 🔹เพราะงั้นเราต้องเพิ่มเติมเงื่อนไขเข้าไปในส่วนของบรรทัด Ordering::Equal => println!("You win!") ใหม่เป็น
 
+```rust
 match guess.cmp(&secret_number) {
     Ordering::Less => println!("Too small!"),
     Ordering::Greater => println!("Too big!"),
@@ -144,7 +147,7 @@ match guess.cmp(&secret_number) {
         break; // หยุดลูป จบเกม
     }
 }
-
+```
 ▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎▪︎
 
 # การแปลงค่า ก่อนหน้านี้ (ใช้ .expect()) ปรับใหม่ (ใช้ match)
@@ -152,10 +155,13 @@ match guess.cmp(&secret_number) {
 - ตอนนี้ → ถ้า input ไม่ใช่ตัวเลข = แค่ข้ามรอบนั้น วนถามใหม่ 🔄
 
 อันนี้คือแบบใหม่ใช้ match
+
+```rust
 let guess: u32 = match guess.trim().parse() {
     Ok(num) => num,
     Err(_) => continue,
 };
+```
 
 👉อธิบาย
 - parse() คืนค่าเป็น Result (มี 2 แบบ)
